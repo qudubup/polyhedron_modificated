@@ -1,4 +1,4 @@
-from math import sin, cos
+from math import sin, cos, sqrt
 
 
 class R3:
@@ -42,6 +42,29 @@ class R3:
             self.z * other.x - self.x * other.z,
             self.x * other.y - self.y * other.x)
 
+    # Расстояние между двумя точками в R3
+    def length(self, other):
+        return sqrt((self.x - other.x)**2 +
+                    (self.y - other.y)**2 +
+                    (self.z - other.z)**2)
+
+    # Лежат ли середины отрезков внутри окружности радиусом 2
+    def center_is_in_circle(self, other, k):
+        if self.x < (self.x - other.x) / 2 < other.x or \
+                other.x < (self.x - other.x) / 2 < self.x:
+            center_x = (self.x - other.x) / 2
+        else:
+            center_x = (other.x - self.x) / 2
+
+        if self.y < (self.y - other.y) / 2 < other.y or \
+                other.y < (self.y - other.y) / 2 < self.y:
+            center_y = (self.y - other.y) / 2
+        else:
+            center_y = (other.y - self.y) / 2
+        return center_x**2 + center_y**2 < 4*k*k
+        # cen_x = (self.x - other.x) / 2
+        # cen_y = (self.y - other.y) / 2
+        # return cen_x**2 + cen_y**2 < 4*k*k
 
 if __name__ == "__main__":
     x = R3(1.0, 1.0, 1.0)

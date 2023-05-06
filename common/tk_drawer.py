@@ -36,6 +36,8 @@ class TkDrawer:
     # Стирание существующей картинки
     def clean(self):
         self.canvas.create_rectangle(0, 0, SIZE, SIZE, fill="white")
+        # self.canvas.create_line(0, SIZE / 2, SIZE, SIZE / 2, fill="blue")
+        # self.canvas.create_line(SIZE / 2, 0, SIZE / 2, SIZE, fill="blue")
         self.root.update()
 
     # Рисование линии
@@ -43,6 +45,13 @@ class TkDrawer:
         self.canvas.create_line(x(p), y(p), x(q), y(q), fill="black", width=1)
         self.root.update()
 
+    # Нарисовать окружность
+    def draw_circle(self, p, r):
+        self.canvas.create_oval(x(p) - r, y(p) - r, x(p) + r, y(p) + r, outline="red",
+                                fill="white", width=2)
+        # self.canvas.create_line(0, SIZE / 2, SIZE, SIZE / 2, fill="blue")
+        # self.canvas.create_line(SIZE / 2, 0, SIZE / 2, SIZE, fill="blue")
+        self.root.update()
 
 if __name__ == "__main__":
 
@@ -52,4 +61,5 @@ if __name__ == "__main__":
     tk.clean()
     tk.draw_line(R3(0.0, 0.0, 0.0), R3(100.0, 100.0, 0.0))
     tk.draw_line(R3(0.0, 0.0, 0.0), R3(0.0, 100.0, 0.0))
+    tk.draw_circle(R3(0.0, 0.0, 0.0), 3*5)
     time.sleep(5)

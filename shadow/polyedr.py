@@ -31,6 +31,8 @@ class Segment:
             self.beg, self.fin if self.fin < other.beg else other.beg),
             Segment(self.beg if self.beg > other.fin else other.fin, self.fin)]
 
+    # def segment_center(self):
+
 
 class Edge:
     """ Ребро полиэдра """
@@ -127,6 +129,7 @@ class Polyedr:
 
         # списки вершин, рёбер и граней полиэдра
         self.vertexes, self.edges, self.facets = [], [], []
+        self.k = 0
 
         # список строк файла
         with open(file) as f:
@@ -136,6 +139,7 @@ class Polyedr:
                     buf = line.split()
                     # коэффициент гомотетии
                     c = float(buf.pop(0))
+                    self.k = c
                     # углы Эйлера, определяющие вращение
                     alpha, beta, gamma = (float(x) * pi / 180.0 for x in buf)
                 elif i == 1:
@@ -162,8 +166,14 @@ class Polyedr:
     # Метод изображения полиэдра
     def draw(self, tk):
         tk.clean()
+        tk.draw_circle(R3(0.0, 0.0, 0.0), 2*self.k)
+        sum_len = 0
         for e in self.edges:
             for f in self.facets:
                 e.shadow(f)
             for s in e.gaps:
                 tk.draw_line(e.r3(s.beg), e.r3(s.fin))
+        for p in self.edges:
+            if len(p.gaps) == 0 and p.r3(0.0).center_is_in_circle(p.r3(1.0), self.k):
+                sum_len += p.r3(1.0).length(p.r3(0.0))/self.k
+        return sum_len
