@@ -45,6 +45,10 @@ class TkDrawer:
         self.canvas.create_line(x(p), y(p), x(q), y(q), fill="black", width=1)
         self.root.update()
 
+    def draw_green(self, p, q):
+        self.canvas.create_line(x(p), y(p), x(q), y(q), fill="green", width=2)
+        self.root.update()
+
     # Нарисовать окружность
     def draw_circle(self, p, r):
         self.canvas.create_oval(x(p) - r, y(p) - r, x(p) + r, y(p) + r, outline="red",

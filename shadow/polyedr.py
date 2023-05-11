@@ -163,17 +163,30 @@ class Polyedr:
                     # задание самой грани
                     self.facets.append(Facet(vertexes))
 
+    # Удаление дубликатов рёбер
+    def edges_uniq(self):
+        edges = {}
+        for e in self.edges:
+            if (e.beg, e.fin) not in edges and (e.fin, e.beg) not in edges:
+                edges[(e.beg, e.fin)] = e
+        self.edges = list(edges.values())
+
     # Метод изображения полиэдра
     def draw(self, tk):
         tk.clean()
         tk.draw_circle(R3(0.0, 0.0, 0.0), 2*self.k)
         sum_len = 0
+        lst = []
+        self.edges_uniq()
         for e in self.edges:
             for f in self.facets:
                 e.shadow(f)
             for s in e.gaps:
                 tk.draw_line(e.r3(s.beg), e.r3(s.fin))
         for p in self.edges:
+            lst.append(len(p.gaps))
             if len(p.gaps) == 0 and p.r3(0.0).center_is_in_circle(p.r3(1.0), self.k):
                 sum_len += p.r3(1.0).length(p.r3(0.0))/self.k
+                tk.draw_green(p.r3(0.0), p.r3(1.0))
         return sum_len
+
