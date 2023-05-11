@@ -171,22 +171,30 @@ class Polyedr:
                 edges[(e.beg, e.fin)] = e
         self.edges = list(edges.values())
 
+    def counter(self):
+        cnt = 0
+        self.edges_uniq()
+        for e in self.edges:
+            for f in self.facets:
+                e.shadow(f)
+            if len(e.gaps) == 0 and \
+                    e.r3(0.0).center_is_in_circle(e.r3(1.0), self.k):
+                cnt += e.r3(1.0).length(e.r3(0.0))/self.k
+        return cnt
+
     # Метод изображения полиэдра
     def draw(self, tk):
         tk.clean()
-        tk.draw_circle(R3(0.0, 0.0, 0.0), 2*self.k)
-        sum_len = 0
-        lst = []
-        self.edges_uniq()
+        # tk.draw_circle(R3(0.0, 0.0, 0.0), 2*self.k)
+        sum_len = self.counter()
         for e in self.edges:
             for f in self.facets:
                 e.shadow(f)
             for s in e.gaps:
                 tk.draw_line(e.r3(s.beg), e.r3(s.fin))
-        for p in self.edges:
-            lst.append(len(p.gaps))
-            if len(p.gaps) == 0 and p.r3(0.0).center_is_in_circle(p.r3(1.0), self.k):
-                sum_len += p.r3(1.0).length(p.r3(0.0))/self.k
-                tk.draw_green(p.r3(0.0), p.r3(1.0))
+                # print([(p.beg, p.fin) for p in e.gaps])
+        # for p in self.edges:
+        #     if len(p.gaps) == 0 and
+        #     p.r3(0.0).center_is_in_circle(p.r3(1.0), self.k):
+        #         sum_len += p.r3(1.0).length(p.r3(0.0))/self.k
         return sum_len
-

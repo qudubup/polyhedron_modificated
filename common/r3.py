@@ -52,7 +52,7 @@ class R3:
     def center_is_in_circle(self, other, k):
         center_x = (other.x + self.x) / 2
         center_y = (self.y + other.y) / 2
-        return center_x**2 + center_y**2 < 4*k*k
+        return center_x ** 2 + center_y ** 2 < 4 * k * k
 
 if __name__ == "__main__":
     x = R3(1.0, 1.0, 1.0)
