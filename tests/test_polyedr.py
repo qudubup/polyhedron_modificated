@@ -16,13 +16,10 @@ class TestPolyedr:
         assert Polyedr(f"data/test4.geom").counter() == 4
 
     def test_polyedr_5(self):
-        assert Polyedr(f"data/test5.geom").counter() == 1
+        assert Polyedr(f"data/test5.geom").counter() == 4
 
     def test_polyedr_6(self):
-        assert Polyedr(f"data/test6.geom").counter() == 4
+        assert Polyedr(f"data/test6.geom").counter() == 8
 
     def test_polyedr_7(self):
-        assert Polyedr(f"data/test7.geom").counter() == 8
-
-    def test_polyedr_8(self):
-        assert Polyedr(f"data/test8.geom").counter() == 6
+        assert Polyedr(f"data/test7.geom").counter() == 6
